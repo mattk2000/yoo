@@ -1,30 +1,55 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Hola</title>
-    <Style>
-    body{
-      background-color: white;
-    }
-    h1 {
-      color: black;
-      text-align: center;
+
+<head>
+  <meta charset="utf-8">
+  <title>Basic IOT button</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+
+<body bgcolor="white">
+  <center>
+    <h1 style="font-family:verdana;">Master Light Switch</h1>
+  <button type="ledOn" onclick="ledOn()">Lights On</button>
+  <button type="ledOff" onclick="ledOff()">Lights Off</button>
+  <button type="toggleLed" onclick="toggleLed()">toggle</button>
+
+  <script>
+    var clicks = 0;
+
+    function ledOn() {
+      console.log("LED is on");
+      clicks=1;
+      $.post("https://api.particle.io/v1/devices/2b0024000447343233323032/led?access_token=ff28db21ea2699208fec4ba5dd22c25447bc6081", {
+        value: "on"
+      });
     }
 
-    p {
-      font-family: "Arial";
-      font-size: 20px;
-      text-align: center;
+    function ledOff() {
+      console.log("LED is off");
+      clicks=0;
+      $.post("https://api.particle.io/v1/devices/2b0024000447343233323032/led?access_token=ff28db21ea2699208fec4ba5dd22c25447bc6081", {
+        value: "off"
+      });
     }
-    #para1 {
-      text-align: center;
-      color: red;
-    }
-    </style>
-  </head>
-  <body bgcolor = #ffffff>
-  <h1 class="center">Whats good world?</h1>
 
-  </body>
+    function toggleLed() {
+      if (clicks % 2 == 0) {
+        console.log("LED toggle on");
+        $.post("https://api.particle.io/v1/devices/2b0024000447343233323032/led?access_token=ff28db21ea2699208fec4ba5dd22c25447bc6081", {
+          value: "on"
+        });
+        clicks++;
+      } else {
+        console.log("LED toggle off");
+        clicks++;
+        $.post("https://api.particle.io/v1/devices/2b0024000447343233323032/led?access_token=ff28db21ea2699208fec4ba5dd22c25447bc6081", {
+          value: "off"
+        });
+      }
+    }
+  </script>
+  <center/>
+</body>
+
 </html>
